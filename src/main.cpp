@@ -4,7 +4,7 @@
 #include <iostream>
 #include <ctime>
 
-#include "wtree_viewer.hpp"
+#include "wtree3_viewer.hpp"
 
 typedef wtree<3> tree_t;
 typedef tree_t::element_t element_t;
@@ -62,5 +62,5 @@ int main(int argc, char** argv)
 
 	std::cout << "Tree built" << std::endl;
 	
-	wtree_viewer<3>::run(argc, argv, t);
+	wtree3_viewer::run(argc, argv, t);
 }
