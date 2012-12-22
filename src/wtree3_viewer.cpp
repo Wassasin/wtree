@@ -4,8 +4,8 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-void* tree_ptr;
-static size_t i;
+const wtree<3>* wtree3_viewer::tree_ptr;
+uint64_t wtree3_viewer::i;
 
 static void draw_dots(const wtree<3>& t, float depth)
 {
@@ -63,7 +63,7 @@ static float in_range(size_t i, size_t steps, float from, float to)
 
 void wtree3_viewer::run(int argc, char** argv, const wtree<3>& tree)
 {
-	tree_ptr = (void*)&tree;
+	tree_ptr = &tree;
 	i = 0;
 	
 	glutInit(&argc, argv);
@@ -71,7 +71,7 @@ void wtree3_viewer::run(int argc, char** argv, const wtree<3>& tree)
 
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(1024, 768);
-	glutCreateWindow(" ");
+	glutCreateWindow("wtree3");
 	
 	glutDisplayFunc(draw);
 	
@@ -80,7 +80,7 @@ void wtree3_viewer::run(int argc, char** argv, const wtree<3>& tree)
 
 void wtree3_viewer::draw()
 {
-	const wtree<3>& t = *static_cast<wtree<3>*>(tree_ptr);
+	const wtree<3>& t = *tree_ptr;
 	
 	constexpr float dist = 2.0;
 	float rad = in_range(i, 360, 0, 2.0 * M_PI);
