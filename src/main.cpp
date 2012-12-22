@@ -9,9 +9,11 @@
 #include "wtree3_viewer.hpp"
 
 #include "wtree_builder.hpp"
+#include "wtree_counter.hpp"
 
-typedef wtree<2> tree_t;
+typedef wtree<3> tree_t;
 typedef tree_t::element_t element_t;
+typename wtree_counter<tree_t::dimension>::bounds_t b;
 
 typedef boost::uniform_real<> distribution_t; 
 typedef boost::mt19937 twister_t; 
@@ -29,7 +31,7 @@ element_t create_element(generator_t& g)
 
 int main(int argc, char** argv)
 {
-	const size_t n = 1e4;
+	const size_t n = 1e3;
 
 	distribution_t distribution(0.0, 1.0);
 	twister_t twister;
@@ -49,5 +51,13 @@ int main(int argc, char** argv)
 	
 	std::cout << "Tree built" << std::endl;
 	
-	wtree2_viewer::run(argc, argv, t);
+	for(float i = 0.0; i <= 1.0; i += 0.01)
+	{
+		for(size_t d = 0; d < tree_t::dimension; d++)
+			b[d] = {{0.0, i}};
+	
+		std::cout << "Currently " << wtree_counter<tree_t::dimension>::count(t, b) << " elements between 0.0 and " << i << std::endl;
+	}
+	
+	wtree3_viewer::run(argc, argv, t);
 }
