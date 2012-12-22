@@ -9,7 +9,7 @@ template<std::size_t D>
 class wtree_builder
 {
 public:
-	typedef wtree<D> tree_t;	
+	typedef wtree<D> tree_t;
 	typedef typename tree_t::element_t element_t;
 	typedef std::list<element_t> list_t;
 	
@@ -44,8 +44,9 @@ private:
 		return result;
 	}
 
-	static void place(tree_t& t, const bounds_t& b, list_t& l)
+	static size_t place(tree_t& t, const bounds_t& b, list_t& l)
 	{
+		size_t count = 0;
 		std::array<list_t, tree_t::node_count> lists;
 		
 		while(!l.empty())
@@ -70,8 +71,11 @@ private:
 			t.insert(*best);
 			lists[i].erase(best);
 			
-			place(*t.nodes[i].wtree, local, lists[i]);
+			t.nodes[i].count += place(*t.nodes[i].wtree, local, lists[i]);
+			count += t.nodes[i].count;
 		}
+		
+		return count;
 	}
 
 public:
