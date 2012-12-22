@@ -4,9 +4,10 @@
 #include <iostream>
 #include <ctime>
 
+#include "wtree2_viewer.hpp"
 #include "wtree3_viewer.hpp"
 
-typedef wtree<3> tree_t;
+typedef wtree<2> tree_t;
 typedef tree_t::element_t element_t;
 
 typedef boost::uniform_real<> distribution_t; 
@@ -35,7 +36,7 @@ float distance(element_t x, element_t y)
 
 int main(int argc, char** argv)
 {
-	const size_t n = 20;
+	const size_t n = 1000;
 
 	distribution_t distribution(0.0, 1.0);
 	twister_t twister;
@@ -50,9 +51,19 @@ int main(int argc, char** argv)
 	for(size_t i = 0; i < n; i++)
 		els.emplace_back(create_element(g));
 	
+	std::cout << "Dataset generated" << std::endl;
+	
+	/*
 	std::sort(els.begin(), els.end(), [&](const element_t& x, const element_t& y) {
 		return distance(x, {{0.5, 0.5, 0.5}}) < distance(y, {{0.5, 0.5, 0.5}});
 	});
+	*/
+	
+	std::sort(els.begin(), els.end(), [&](const element_t& x, const element_t& y) {
+		return distance(x, {{0.5, 0.5}}) < distance(y, {{0.5, 0.5}});
+	});
+	
+	std::cout << "Dataset sorted" << std::endl;
 	
 	assert(!els.empty());
 
@@ -62,5 +73,5 @@ int main(int argc, char** argv)
 
 	std::cout << "Tree built" << std::endl;
 	
-	wtree3_viewer::run(argc, argv, t);
+	wtree2_viewer::run(argc, argv, t);
 }
