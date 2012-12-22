@@ -14,7 +14,7 @@ public:
 	static constexpr size_t dimension = D;
 	static constexpr size_t node_count = constpow(2, dimension);
 
-	typedef std::unique_ptr<wtree> wtree_ptr;
+	typedef std::unique_ptr<wtree<D, DT, count_t>> wtree_ptr;
 	typedef DT component_t;
 	typedef std::array<component_t, dimension> element_t;
 
@@ -39,7 +39,7 @@ public:
 	, element(e)
 	{}
 	
-	size_t find_index(const element_t& e)
+	size_t find_index(const element_t& e) const
 	{
 		size_t result = 0;
 	
